@@ -52,12 +52,8 @@ def read_RawData():
         simData[simDate]=dateDframe
     return simData
 
-
-
-
-
-
 raw_Data = read_RawData()
 raw_Data_Keys = list(raw_Data.keys())
 print(raw_Data_Keys[1])
 print(raw_Data[raw_Data_Keys[1]])
+
