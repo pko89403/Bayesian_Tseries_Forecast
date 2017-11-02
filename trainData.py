@@ -7,26 +7,37 @@ raw_Data = read_Raw.read_RawData()
 raw_Data_Keys = list(raw_Data.keys() )
 timeCnt = read_Raw.timeCnt
 
+class TrainingData:
+    trainX = []
+    trainY = []
 
-def makeTrainData():
+    def __init__(self):
+        trainX = []
+        trainY = []
+        for rawDataKey in raw_Data_Keys:
+            rawData = raw_Data[rawDataKey]
 
-    global train_X, train_Y
-    train_X = []
-    train_Y = []
-    for rawDataKey in raw_Data_Keys:
-        rawData = raw_Data[rawDataKey]
+            rd2MX = rawData.as_matrix()
 
-        rd2MX = rawData.as_matrix()
+            for i in range(timeCnt - 1):
+                tmp_X = rd2MX[i]
+                tmp_Y = rd2MX[i + 1]
+                trainX.append(tmp_X)
+                trainY.append(tmp_Y)
 
-        for i in range(timeCnt-1):
-            tmp_X = rd2MX[i]
-            tmp_Y = rd2MX[i + 1]
-            train_X.append(tmp_X)
-            train_Y.append(tmp_Y)
+        trainX = np.float32(trainX)
+        trainY = np.float32(trainY)
+        self.trainX = trainX
+        self.trainY = trainY
 
-    train_X = np.float32(train_X)
-    train_Y = np.float32(train_Y)
+    def getX(self):
+        return self.trainX
 
-    return train_X, train_Y
+    def getY(self):
+        return self.trainY
 
+    def getSelectedX(self, xList):
+        return self.trainX[:,xList]
 
+    def getSelectedY(self, yList):
+        return self.trainY[:,yList]
